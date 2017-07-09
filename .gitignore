@@ -16,6 +16,10 @@
 .env.test.local
 .env.production.local
 
+# probably best to recreate manually
+package.json
+/src\ copy
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
