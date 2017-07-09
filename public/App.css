@@ -1,0 +1,175 @@
+.help {
+    color: rgba(200, 30, 30, 1);
+}
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 0;
+}
+
+ol,
+ul {
+    padding-left: 30px;
+}
+#root {
+    max-width: 400px;
+    margin: 0 auto;
+}
+.grid {
+    min-width: 150px;
+}
+.board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+.tally {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    max-width: 474px;
+}
+.tileSelectionMenu {
+  padding-top: 20px;
+  max-width: 200px;
+}
+.tileSelection {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.game {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.returnBtn {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 0 20px 0;
+}
+.game-board {
+    margin: 0 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+}
+.game-info {
+    font-family: monospace;
+    font-size: 15px;
+    margin: 0 10px;
+    width: 150px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+.status {
+    width: 100%;
+    margin: 5px 10px;
+}
+.statusExpandUp {
+	transform-origin: bottom left;
+	animation-name: expandUp;
+	animation-duration: 1.25s;
+}
+.ALGORITHM {
+  font-family: monospace;
+}
+.square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 50px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 50px;
+}
+
+.xTile {
+    color: dodgerblue;
+}
+
+.oTile {
+    color: orangered
+}
+
+.winTile {
+    background-color: hsl(60, 100%, 50%);
+}
+.teamTile {
+    background-color: hsl(70, 100%, 50%);
+}
+.loseTile {
+    color: white;
+}
+
+.square:focus {
+    outline: none;
+}
+
+.kbd-navigation .square:focus {
+    background: #ddd;
+}
+
+.MovesList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.MovesList span,
+input {
+    cursor: pointer;
+    margin: 0 10px 0 0;
+
+}
+.null {
+    display: none;
+}
+@keyframes expandUp {
+	0% {
+		transform: scale(1,1);
+	}
+	25% {
+		transform: scale(1.75,1.75);
+	}
+	90% {
+		transform: scale(2,2);
+	}
+	100% {
+		transform: scale(0.9,0.9);
+	}
+}
+@keyframes rollout {
+    from {
+        height: 0;
+    }
+    to {
+        height: 5px;
+    }
+}
+.rollout {
+    overflow: hidden;
+    animation: 0.1s rollout;
+}
+@keyframes rollin {
+    from {
+        height: 5px;
+    }
+    1% {display: none;}
+    to {
+        display: none;
+        height: 0;
+    }
+}
+.rollin {
+    position: relative;
+    overflow: hidden;
+    animation-name: rollin;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+}
