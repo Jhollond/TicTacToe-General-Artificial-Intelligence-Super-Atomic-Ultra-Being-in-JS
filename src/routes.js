@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, Redirect } from 'react-router';
 
 import App from './components/App';
 import PostsIndex from './components/posts_index';
@@ -10,10 +10,13 @@ import NavButtons from './components/buttons_nav';
 const NotFound = () => (
 	<div>
     <NavButtons include="home"/>
+		{window.setTimeout(()=>{
+			window.location = "/"
+		}, 1000)}
 		<h3>Welcome to TicTacToe</h3>
 		<p>source is <a
-        target="blank"
-        href="https://github.com/Jhollond/TicTacToe-General-Artificial-Intelligence-Super-Atomic-Ultra-Being-in-JS">
+			target="blank"
+								 href="https://github.com/Jhollond/TicTacToe-General-Artificial-Intelligence-Super-Atomic-Ultra-Being-in-JS">
            here
       </a>
     </p>

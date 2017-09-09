@@ -17,7 +17,7 @@ export default (props) => {
       {label}
     </span>
   )
-  const alts = {
+  const alias = {
     'home': {
       address: '/',
       label: 'Main Menu'
@@ -28,7 +28,7 @@ export default (props) => {
     if (customInclude[tag]) {
       navButton = getcustomNav(customInclude[tag],tag);
     } else {
-      navButton = getLinkNav(alts[tag])
+      navButton = getLinkNav(alias[tag])
     }
     return acc.concat(<span key={tag}>{navButton}</span>)
   },[])

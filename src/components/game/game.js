@@ -101,7 +101,7 @@ class Game extends Component {
 		const isMostRecentTurn = this.state.stepNumber+1 === this.state.history.length;
 		if ((isRobotsTurn && isMostRecentTurn) && this.isInProgress) {
 			const bestMove = this.props.robot.makeAIMove(this.state.history.slice(-1)[0].squares);
-			this.squareClick(bestMove, true);
+			window.setTimeout(()=>{this.squareClick(bestMove, true)}, 816);
 		}
 	}
 	restartGame(type) {

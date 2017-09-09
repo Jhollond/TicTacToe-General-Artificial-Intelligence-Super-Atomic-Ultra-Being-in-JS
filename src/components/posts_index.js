@@ -30,6 +30,12 @@ const PostsIndex = () => {
       <ul className="list-group d-flex">
         {modes.map((modeData, key) => gameMode(modeData, key))}
       </ul>
+      <p>source is <a
+  			target="blank"
+                   href="https://github.com/Jhollond/TicTacToe-General-Artificial-Intelligence-Super-Atomic-Ultra-Being-in-JS">
+        here
+      </a>
+      </p>
     </div>
   )
 }
