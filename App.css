@@ -13,7 +13,9 @@ ul {
 #root{
     max-width: 400px;
     margin: 0 auto;
+    padding: 10px;
 }
+
 .grid {
     min-width: 150px;
 }
@@ -26,7 +28,10 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    max-width: 474px;
+}
+.scoreKeeper {
+  display: flex;
+  justify-content: space-between;
 }
 .tileSelectionMenu {
   padding-top: 20px;
@@ -42,11 +47,18 @@ ul {
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
+.gameSelect {
+  display: flex;
+  justify-content: space-between;
+}
 .returnBtn {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin: 0 0 20px 0;
+}
+.returnBtn > span {
+  cursor: pointer;
 }
 .game-board {
     margin: 0 10px 10px 10px;
@@ -97,11 +109,16 @@ ul {
     color: orangered
 }
 
-.winTile {
-    background-color: hsl(60, 100%, 50%);
+.XwinTile {
+    background-color: dodgerblue;
+    color: white;
+}
+.OwinTile {
+    background-color: orangered;
+    color: white;
 }
 .teamTile {
-    background-color: hsl(70, 100%, 50%);
+    background-color: #dddddd;
 }
 .loseTile {
     color: white;
