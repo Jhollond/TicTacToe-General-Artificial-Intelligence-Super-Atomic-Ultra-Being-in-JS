@@ -7,22 +7,15 @@ class HumanGame extends Component {
     this.state = {
       playerOne: 'Crosses',
       playerTwo: 'Noughts',
-      initGame: true,
-      boardSize: 3,
-      linesTarget: 1
+      initGame: true
     }
   }
   initGame() {
     this.setState({initGame: true});
   }
-  onInputChange(player,name) {
+  OnInputChange(player,name) {
     this.setState({[player]: name})
 
-  }
-  selectHandler(event, key) {
-    console.log(event.target.value);
-    this.setState({ [key]: Number(event.target.value) })
-    console.log(this.state.boardSize);
   }
   pickNames() {
     return(
@@ -34,7 +27,7 @@ class HumanGame extends Component {
             <input
               className='form-control'
               value={this.state.playerOne}
-              onChange={event => this.onInputChange('playerOne',event.target.value)}
+              onChange={event => this.OnInputChange('playerOne',event.target.value)}
             />
           </div>
           <div className="status">
@@ -42,26 +35,8 @@ class HumanGame extends Component {
             <input
               className='form-control'
               value={this.state.playerTwo}
-              onChange={event => this.onInputChange('playerTwo',event.target.value)}
+              onChange={event => this.OnInputChange('playerTwo',event.target.value)}
             />
-          </div>
-          <div className="status">
-            <div>Board Size: </div>
-            <select defaultValue={this.state.boardSize}
-              onChange={e => this.selectHandler(e,"boardSize")}>
-              {Array(10).fill(0).map((v,i) =>
-                <option key={i} value={i+3}>{i+3} x {i+3}</option>
-              )}
-            </select>
-          </div>
-          <div className="status">
-            <span>Lines to Win Round: </span>
-            <select defaultValue={this.state.linesTarget}
-              onChange={e => this.selectHandler(e,"linesTarget")}>
-              {Array(this.state.boardSize-2).fill(0).map((v, i) =>
-                <option key={i} value={i+1}>{i+1}</option>
-              )}
-            </select>
           </div>
         </div>
         <div className="d-flex justify-content-end">
@@ -85,8 +60,6 @@ class HumanGame extends Component {
       <div>
         <GameContainer
           ready={!this.state.initGame}
-          boardSize={this.state.boardSize}
-          linesTarget={this.state.linesTarget}
           names={names}
           newGame={() => this.initGame()}/>
         {this.state.initGame && this.pickNames()}
@@ -94,6 +67,5 @@ class HumanGame extends Component {
     )
   }
 }
-
 
 export default HumanGame

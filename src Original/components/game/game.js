@@ -3,14 +3,13 @@ import React, {Component} from 'react';
 import Board from './board';
 import MovesList from './moves_list';
 // ======================== //
-import GetWinningTiles from './checkWinAlongGrid';
 
 class Game extends Component {
 	constructor() {
 		super();
 		this.state = {
 			history: [{
-				squares: Array(1).fill(null)
+				squares: Array(9).fill(null)
 			}],
 			currentTurn: 'X',
 			stepNumber: 0
@@ -19,32 +18,58 @@ class Game extends Component {
 		this.isInProgress = true;
 		this.baseState = this.state;
 	}
-	setBoardSize() {
-		const boardSize = this.props.boardSize;
-		const history = this.state.history.slice();
-		history[0].squares = Array(boardSize**2).fill(null);
-		this.setState({ history });
-		this.baseState.history[0].squares = Array(boardSize**2).fill(null);
-	}
 	workThemTiles() {
 		const history = this.state.history;
 		const current = history[this.state.stepNumber];
 		const squares = current.squares;
-		const tileJustPlayed = this.state.currentTurn === 'X' ? 'O' : 'X';
-		const boardSize = this.props.boardSize;
-		const limit = this.props.linesTarget;
-		const result = GetWinningTiles(squares, tileJustPlayed, boardSize, limit);
-		if (squares.join('').length === squares.length && !result.toEnd) {
-			result.toEnd = 'tie'
+		const result = {
+			tileStyle: Array(9).fill(false),
+			line: null,
+			toEnd: false
+		};
+		const lines = [
+			[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
+			[1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
+		];
+		// Check if the played move has created a line.
+		lines.forEach(line => {
+			const [a, b, c] = line;
+			if (
+				squares[a] &&
+				squares[a] === squares[b] &&
+				squares[a] === squares[c]
+			) {
+				// Set up board style to highlight winning team and combo
+				result.tileStyle = squares.reduce((acc, tile, ind) => {
+					tile = tile === squares[a] ? 1 : false;
+					line.forEach(win => {
+						if (ind === win) {
+							tile = 2;
+						}
+					});
+					// All tiles in combo get 2,
+					// Tiles on same side get 1,
+					// Rest are false
+					return acc.concat(tile);
+				}, []);
+				result.toEnd = this.state.currentTurn;
+				result.line = line;
+			}
+		});
+		if (squares.join('').length === 9 && !result.toEnd) {
+			console.log(squares.join(''));
+			result.toEnd = 'tie';
 		}
+		// No winner so no highlights;
 		return result;
 	}
-	getStatus(args, stepResult) {
+	getStatus(args, stepResult = this.workThemTiles()) {
 		const currentIsX = this.state.currentTurn === 'X';
 		const { playerOne, playerTwo } = this.props.names;
 		let name = currentIsX ? playerOne : playerTwo;
+		name += name.slice(-1) === 's' ? '\'' : '\'s';
 		const o = {
-			status: `${name}${name.slice(-1) === 's' ? '\'' : '\'s'} turn!`,
+			status: `${name} turn!`,
 			end: false,
 			type: false,
 			color: currentIsX ? 'xTile' : 'oTile'
@@ -58,7 +83,8 @@ class Game extends Component {
 				o.type = 'tie';
 				o.color = '';
 			} else {
-				o.type = stepResult.toEnd;
+				const a = stepResult.line[0];
+				o.type = args[a];
 				o.status = `The winner is ${name}!`;
 			}
 		}
@@ -71,7 +97,6 @@ class Game extends Component {
 		});
 	}
 	squareClick(i,isRobot) {
-		//Kinda useless as robot responds too quickly for human to intercept
 		if (!isRobot && this.props.robot && this.props.robot.turn === this.state.currentTurn) {
 			return;
 		}
@@ -105,16 +130,17 @@ class Game extends Component {
 		}
 	}
 	restartGame(type) {
+		console.log(type);
 		const timeoutID = window.setTimeout(() => {
 			this.isInProgress = true;
 			this.setState(this.baseState);
 			window.clearTimeout(timeoutID);
 			this.props.tallyWin(type);
+			console.log(this.isInProgress + " meme");
 			this.endAnimation = "";
 		},1250);
 	}
 	componentDidMount() {
-		this.setBoardSize();
 		this.forceUpdate();
 	}
 	componentDidUpdate() {
@@ -139,14 +165,12 @@ class Game extends Component {
 				</div>
 				<div className="game-board">
 					<Board
-						boardSize={this.props.boardSize}
 						squares={current.squares}
 						onClick={i => this.squareClick(i)}
 						tileStyle={result.tileStyle}/>
 				</div>
 				<div className="game-info">
 					<MovesList
-						boardSize={this.props.boardSize}
 						history={history}
 						jumpTo={i => this.jumpTo(i)}
 						stepNumber={this.state.stepNumber}/>
@@ -155,10 +179,7 @@ class Game extends Component {
 		);
 	}
 }
-Game.defaultProps = {
-	boardSize: 3,
-	linesTarget: 1
-}
+
 		// ========================================
 
 export default Game;

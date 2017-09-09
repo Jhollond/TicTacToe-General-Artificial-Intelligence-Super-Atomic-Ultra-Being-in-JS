@@ -6,10 +6,10 @@ const PostsIndex = () => {
     return (
       <li className="list-group-item" key={key}>
         <Link to={"/game/"+post.title} style={{width: "100%"}}>
-          <div className="gameSelect">
-            <span><strong>{post.title}</strong></span>
+          <div className="d-flex justify-content-between flex-row-reverse">
             <span>{post.categories}</span>
-          </div>
+            <span><strong>{post.title}</strong></span>
+        </div>
         </Link>
       </li>
     )
