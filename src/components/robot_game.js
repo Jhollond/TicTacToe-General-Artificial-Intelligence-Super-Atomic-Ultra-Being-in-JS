@@ -7,7 +7,9 @@ class RobotGame extends Component {
     super();
     this.state = {
       robot: null,
-      human: null
+      human: null,
+      isDelay: false,
+      timeDelay: 800
     };
     this.baseState = this.state;
     this.bot = null;
@@ -25,7 +27,29 @@ class RobotGame extends Component {
     this.bot = new TicTacToe(this.state.robot);
     console.log(this.bot);
   }
-  pickTile() {
+  handleDelay( isDelay ) {
+    this.setState({ isDelay: isDelay })
+  }
+  handleDelayTime(event) {
+    this.setState({ timeDelay: event.target.value });
+  }
+  delayCheckBox() {
+    return (
+      <span>
+        <input type="checkbox"
+          checked={this.state.isDelay}
+          onChange={() => this.handleDelay(!this.state.isDelay)}/>
+        <span> Delay </span>
+        {this.state.isDelay &&
+          <input  type="number"
+            value={this.state.timeDelay}
+            onChange={e => this.handleDelayTime(e)}
+          className="robotTimeDelayBox"/>
+        }
+      </span>
+    )
+  }
+  pickSettings() {
     if (!this.state.robot) {
       return (
         <div style={{"marginTop":10,"width":190}} className="d-flex flex-column">
@@ -34,14 +58,14 @@ class RobotGame extends Component {
             <div className="tileSelection">
               <span>Go first:</span>
               <span className="btn btn-secondary"
-              onClick={()=>{this.setState({robot: "O", human: "X"})}}>
+                onClick={()=>{this.setState({robot: "O", human: "X"})}}>
                 <b>X</b>
               </span>
             </div>
             <div className="tileSelection">
               <span>Go second:</span>
               <span className="btn btn-secondary"
-              onClick={()=>{this.setState({robot: "X", human: "O"})}}>
+                onClick={()=>{this.setState({robot: "X", human: "O"})}}>
                 <b>O</b>
               </span>
             </div>
@@ -65,10 +89,15 @@ class RobotGame extends Component {
           names={names}
           robot={{
             makeAIMove: i => this.makeAIMove(i),
-            turn: this.state.robot
+            turn: this.state.robot,
+            isDelay: this.state.isDelay,
+            delayCheckBox: () => this.delayCheckBox(),
+            timeDelay: this.state.timeDelay
           }}
           newGame={() => this.newGame()}/>
-        <div className="d-flex justify-content-center">{this.pickTile()}</div>
+        <div className="d-flex justify-content-center">
+          {this.pickSettings()}
+        </div>
       </div>
     )
   }

@@ -99,9 +99,17 @@ class Game extends Component {
 		const isRobotsTurn = this.props.robot.turn === this.state.currentTurn;
 		// And we're at the end of history
 		const isMostRecentTurn = this.state.stepNumber+1 === this.state.history.length;
+				// and the hame is in progress and is not about to restart
 		if ((isRobotsTurn && isMostRecentTurn) && this.isInProgress) {
-			const bestMove = this.props.robot.makeAIMove(this.state.history.slice(-1)[0].squares);
-			window.setTimeout(()=>{this.squareClick(bestMove, true)}, 816);
+			const board = this.state.history.slice(-1)[0].squares;
+			const bestMove = this.props.robot.makeAIMove(board);
+			const getBestMove = () => {this.squareClick(bestMove, true)};
+			if (this.props.robot.isDelay) {
+				window.setTimeout(getBestMove, this.props.robot.timeDelay);
+			}
+			else {
+				getBestMove();
+			}
 		}
 	}
 	restartGame(type) {
