@@ -48,8 +48,8 @@ class GameContainer extends Component {
 					<div style={{fontSize: "0.66em"}}>
 						<b>{lines}</b> {lines ? 'To Win':''}
 					</div>
-					{this.props.robot.delayCheckBox()}
-					
+					{this.props.robot && this.props.robot.delayCheckBox()}
+
 				</div>
 				<div className="tally">
 					<span><b>Scores: </b></span>

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, IndexRoute, Redirect } from 'react-router';
 
 import App from './components/App';
 import PostsIndex from './components/posts_index';
 import HumanGame from './components/human_game';
 import RobotGame from './components/robot_game';
-import NavButtons from './components/buttons_nav';
 
 export default (
 	<Route path='/' component={ App }>
