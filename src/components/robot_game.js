@@ -9,14 +9,19 @@ class RobotGame extends Component {
       robot: null,
       human: null,
       isDelay: false,
-      timeDelay: 800
+      timeDelay: 800,
+      isRandom: false
     };
     this.baseState = this.state;
     this.bot = null;
   }
-  makeAIMove(board) {
+  makeAIMove(board, turn) {
+    if (turn === 0 && this.state.isRandom) {
+      return Math.floor(Math.random() * 10);
+    }
     this.bot.board = board;
     const bestMove = alphaBeta(this.bot);
+    console.log(bestMove);
     return bestMove;
   }
   newGame() {
@@ -32,6 +37,9 @@ class RobotGame extends Component {
   }
   handleDelayTime(event) {
     this.setState({ timeDelay: event.target.value });
+  }
+  handleIsRandom() {
+    this.setState({ isRandom: !this.state.isRandom });
   }
   delayCheckBox() {
     return (
@@ -52,24 +60,34 @@ class RobotGame extends Component {
   pickSettings() {
     if (!this.state.robot) {
       return (
-        <div style={{"marginTop":10,"width":190}} className="d-flex flex-column">
-          <div><strong>Pick Your Tile</strong></div>
-          <div className="tileSelectionMenu">
-            <div className="tileSelection">
-              <span>Go first:</span>
-              <span className="btn btn-secondary"
-                onClick={()=>{this.setState({robot: "O", human: "X"})}}>
-                <b>X</b>
-              </span>
+        <div>
+          <div style={{"marginTop":10,"width":190}} className="d-flex flex-column">
+            <div><strong>Pick Your Tile</strong></div>
+            <div className="tileSelectionMenu">
+              <div className="tileSelection">
+                <span>Go first:</span>
+                <span className="btn btn-secondary"
+                  onClick={()=>{this.setState({robot: "O", human: "X"})}}>
+                  <b>X</b>
+                </span>
+              </div>
+              <div className="tileSelection">
+                <span>Go second:</span>
+                <span className="btn btn-secondary"
+                  onClick={()=>{this.setState({robot: "X", human: "O"})}}>
+                  <b>O</b>
+                </span>
+              </div>
             </div>
-            <div className="tileSelection">
-              <span>Go second:</span>
-              <span className="btn btn-secondary"
-                onClick={()=>{this.setState({robot: "X", human: "O"})}}>
-                <b>O</b>
-              </span>
+            <div>
             </div>
           </div>
+          <input type="checkbox"
+            checked={this.state.isRandom}
+            onChange={() => this.handleIsRandom()}/>
+          <span style={!this.state.isRandom ? {color: "#eee"} : {}}>
+            {'\t'} random first move
+          </span>
         </div>
       )
     }
@@ -88,7 +106,7 @@ class RobotGame extends Component {
           ready={this.state.robot !== null}
           names={names}
           robot={{
-            makeAIMove: i => this.makeAIMove(i),
+            makeAIMove: (i,t) => this.makeAIMove(i,t),
             turn: this.state.robot,
             isDelay: this.state.isDelay,
             delayCheckBox: () => this.delayCheckBox(),

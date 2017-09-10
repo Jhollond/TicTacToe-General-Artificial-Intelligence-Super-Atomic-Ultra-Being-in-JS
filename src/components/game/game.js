@@ -13,7 +13,8 @@ class Game extends Component {
 				squares: Array(1).fill(null)
 			}],
 			currentTurn: 'X',
-			stepNumber: 0
+			stepNumber: 0,
+			robotJustWent: false
 		};
 		this.endAnimation = "";
 		this.isInProgress = true;
@@ -71,12 +72,14 @@ class Game extends Component {
 		});
 	}
 	squareClick(i,isRobot) {
-		//Kinda useless as robot responds too quickly for human to intercept
 		if (!isRobot && this.props.robot && this.props.robot.turn === this.state.currentTurn) {
 			return;
 		}
 		if (!this.isInProgress) {
 			return;
+		}
+		if (!isRobot) {
+			this.setState({ robotJustWent: false })
 		}
 		const history = this.state.history.slice(0, this.state.stepNumber + 1);
 		const current = history[history.length - 1];
@@ -99,17 +102,19 @@ class Game extends Component {
 		const isRobotsTurn = this.props.robot.turn === this.state.currentTurn;
 		// And we're at the end of history
 		const isMostRecentTurn = this.state.stepNumber+1 === this.state.history.length;
-				// and the hame is in progress and is not about to restart
-		if ((isRobotsTurn && isMostRecentTurn) && this.isInProgress) {
+				// and the game is in progress and is not about to restart
+		const justWent = this.state.robotJustWent;
+		if ((isRobotsTurn && isMostRecentTurn) && this.isInProgress && !justWent) {
 			const board = this.state.history.slice(-1)[0].squares;
-			const bestMove = this.props.robot.makeAIMove(board);
-			const getBestMove = () => {this.squareClick(bestMove, true)};
+			const bestMove = this.props.robot.makeAIMove(board, this.state.stepNumber);
 			if (this.props.robot.isDelay) {
-				window.setTimeout(getBestMove, this.props.robot.timeDelay);
+				window.setTimeout(() => this.squareClick(bestMove, true)
+				, this.props.robot.timeDelay);
 			}
 			else {
-				getBestMove();
+				this.squareClick(bestMove, true);
 			}
+			this.setState({ robotJustWent: true });
 		}
 	}
 	restartGame(type) {
