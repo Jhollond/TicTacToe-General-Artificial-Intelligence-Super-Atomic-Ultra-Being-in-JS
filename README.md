@@ -1,5 +1,5 @@
 Check it out live -
-#[Here](https://Jhollond.github.io/TicTacToe-General-Artificial-Intelligence-Super-Atomic-Ultra-Being-in-JS)
+#[Here](https://jh0l.github.io/TicTacToe-General-Artificial-Intelligence-Super-Atomic-Ultra-Being-in-JS)
 
 super basic TicTacToe, to recreate;
 1. install create-react-app
