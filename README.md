@@ -1,5 +1,5 @@
 Check it out live -
-#[Here](https://jh0l.github.io/TicTacToe-General-Artificial-Intelligence-Super-Atomic-Ultra-Being-in-JS)
+#[Here](https://jh0l.github.io/TicTacToe)
 
 super basic TicTacToe with minimax-alphabeta best move recursive algorithm
 
